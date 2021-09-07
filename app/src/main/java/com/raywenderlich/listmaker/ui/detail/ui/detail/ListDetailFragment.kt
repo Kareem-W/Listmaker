@@ -44,6 +44,12 @@ class ListDetailFragment : Fragment() {
             MainViewModelFactory(PreferenceManager.getDefaultSharedPreferences(requireActivity()))
         ).get(MainViewModel::class.java)
 
+        val list: TaskList? = arguments?.getParcelable(MainActivity.INTENT_LIST_KEY)
+        if (list != null) {
+            viewModel.list = list
+            requireActivity().title = list.name
+        }
+
         val recyclerAdapter =
             ListItemsRecyclerViewAdapter(viewModel.list)
         binding.listItemsRecyclerview.adapter = recyclerAdapter
@@ -54,11 +60,7 @@ class ListDetailFragment : Fragment() {
             recyclerAdapter.notifyDataSetChanged()
         }
 
-        val list: TaskList? = arguments?.getParcelable(MainActivity.INTENT_LIST_KEY)
-        if (list != null) {
-            viewModel.list = list
-            requireActivity().title = list.name
-        }
+
     }
 
 }
